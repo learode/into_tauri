@@ -4,9 +4,11 @@
 
 Commands Tauri are essentially Rust functions that enhance your frontend with native capabilities you can call from your frontend JavaScript
 
-### Defining Commands
+### Defining Commands 
 
 Just another Rust function, with the line `#[taur::command]` above it. The function can take any number of arguments, and return any type that implements `serde::Serialize`.
+
+`src-tauri/main.js`
 
 ```rust
     #[tauri::command]
