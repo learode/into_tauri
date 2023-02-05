@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "getting-to-know",
+    "productName": "Knowing Tauri",
     "version": "0.0.0"
   },
   "tauri": {
@@ -60,10 +60,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 400,
         "resizable": true,
-        "title": "getting-to-know",
-        "width": 800
+        "title": "Knowing Tauri",
+        "width": 600
       }
     ]
   }
