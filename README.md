@@ -49,23 +49,7 @@ This will inject a pre-bundled version of the API functions into your frontend.
 menu is a struct that represents a menu bar.
 Menus are created using a list struct.
 
-1. Using `add_native_item()`
-
-    `add_native_item()` implement representing a menu item. This require two parameters; a `label` field, which is the text that will be displayed in the menu, and a `role` field, which is the action that will be performed when the menu item is clicked.
-
-    ```rust
-        let menu = Menu::new()
-            .add_native_item(NativeMenuItem::new(
-                "About".to_string(),
-                Some("about".to_string()),
-            ))
-            .add_native_item(NativeMenuItem::new(
-                "Quit".to_string(),
-                Some("quit".to_string()),
-            ));
-    ```
-
-2. Using `Submenu`
+1. Using `Submenu`
 
     ```rust
         let about_mi = CustomMenuItem::new("about", "About Us"); // *1*
