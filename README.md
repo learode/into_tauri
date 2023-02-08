@@ -2,7 +2,7 @@
 
 ## Invoke Commands
 
-Commands Tauri are essentially Rust functions that enhance your frontend with native capabilities you can call from your frontend JavaScript
+Commands in Tauri are essentially Rust functions that enhance your frontend with native capabilities you can call from your frontend JavaScript
 
 ### Defining Commands
 
@@ -17,7 +17,7 @@ Just another Rust function, with the line `#[taur::command]` above it. The funct
     }
 ```
 
-If the tauri is import into the project's scope `#[tauri::command]` becomes `#[command]`.
+If the `tauri` (module?) is import into the project's scope `#[tauri::command]` becomes `#[command]`.
 
 This implimented __Command__ is made known to Tauri
 Why? So that Tauri can route calls to this __Command__ from __Js__.
@@ -81,3 +81,21 @@ Menus are created using a list struct.
             })
     }
     ```
+
+The Implimentation of these Menu guys e.g.
+
+```rs
+    impl CustomMenuItem {
+      /// Create new custom menu item.
+      pub fn new<I: Into<String>, T: Into<String>>(id: I, title: T) -> Self {
+        // ...
+      }
+  }
+```
+
+require a String parameter but doesnot complain of a &str slice? :donot know:
+I also dont understand the `Into()` guys
+
+The `Into<String>` Takes any string type and convert it into a type `String`. That's why using `&str` does not report and error or complain :ha:
+
+Also the menu items have me click twice before execution, :donot know:

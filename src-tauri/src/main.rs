@@ -1,49 +1,38 @@
 #![cfg_attr(all(not(debug_assertions), target_os="windows"), windows_subsystem = "windows")]
-use tauri::{Menu, CustomMenuItem};
-use tauri::{WindowBuilder};
+use tauri::{Menu, MenuItem, CustomMenuItem, AboutMetadata};
 
-
-
-
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {name}!")
-}
-
+/**
+ * Trying to understand the use of MenuItem.
+ * Its implemented as using the native menu items but I donot understand why its not working.
+ * 
+ * Only about is unsupported
+ */
 
 
 fn main() {
-  let menu = Menu::new().add_item(CustomMenuItem::new("finish", "Finish")); // configure the menu
-  
-  tauri::Builder::default()
-    .setup(|app| {
-        let window = WindowBuilder::new(
-            app,
-            "main-window".to_string(),
-            tauri::WindowUrl::App("index.html".into()),
-        ).menu(menu)
-         .build()?;
+    let menu = Menu::new().
+                add_native_item(MenuItem::About(
+                    // The name passed is appended to the about mkx it ugly :ha:ha:
+                    // Without the name, the about has no app name :fustrating:
+                    String::from("Liferoute"), 
+                    tauri::AboutMetadata::default()
+                        .authors(vec![String::from("Mulfranck"), "Tauri".to_string()])
+                        .version("0.1.0")
+                        .license("MIT")
+                        .comments("Knowing Tauri, is a test environment to learn and get a feel of using Tauri for desktop app\n :ha:ha:")
+                        .website("https://github.com/learode/liferoutine")
+                ))
+                .add_native_item(MenuItem::Copy) // Only About is implimemted/supported
+                .add_item(CustomMenuItem::new("quit", "Quit"));
 
-        let window_ = window.clone();
-
-        // make the window closable window
-        // by  copying the window variable and moving it into the closure 
-        window.on_menu_event(move |event| {
+    tauri::Builder::default()
+        .menu(menu)
+        .on_menu_event(|event| {
             match event.menu_item_id() {
-                "quit" => {
-                  std::process::exit(0);
-                }
-                "close" => {
-                  window_.close().unwrap();
-                }
-                _ => {
-                    print!("Menu item not found");
-                }
+                "quit" => { std::process::exit(0); },
+                _ => { println!("What? What did you click nigga?"); }
             }
-        });
-        Ok(())
-    })
-    .invoke_handler(tauri::generate_handler![greet])
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+        })
+        .run(tauri::generate_context!())
+        .expect("Failed to build app");
 }
