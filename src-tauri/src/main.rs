@@ -17,26 +17,31 @@ fn main() {
   
   tauri::Builder::default()
     .setup(|app| {
-      let window = WindowBuilder::new(
-        app,
-        "main-window".to_string(),
-        tauri::WindowUrl::App("index.html".into()),
-      )
-      .menu(menu)
-      .build()?;
-      let window_ = window.clone();
-      window.on_menu_event(move |event| {
-        match event.menu_item_id() {
-          "quit" => {
-            std::process::exit(0);
-          }
-          "close" => {
-            window_.close().unwrap();
-          }
-          _ => {}
-        }
-      });
-      Ok(())
+        let window = WindowBuilder::new(
+            app,
+            "main-window".to_string(),
+            tauri::WindowUrl::App("index.html".into()),
+        ).menu(menu)
+         .build()?;
+
+        let window_ = window.clone();
+
+        // make the window closable window
+        // by  copying the window variable and moving it into the closure 
+        window.on_menu_event(move |event| {
+            match event.menu_item_id() {
+                "quit" => {
+                  std::process::exit(0);
+                }
+                "close" => {
+                  window_.close().unwrap();
+                }
+                _ => {
+                    print!("Menu item not found");
+                }
+            }
+        });
+        Ok(())
     })
     .invoke_handler(tauri::generate_handler![greet])
     .run(tauri::generate_context!())
