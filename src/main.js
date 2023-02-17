@@ -1,21 +1,14 @@
-
 // access the pre-bundled global API functions
 const { invoke } = window.__TAURI__.tauri
 
-let $input;
-let $button;
-let $output;
+
+// invoke the `read` command
+// invoke({
+//   cmd: 'read',
+//   path: 'path/to/file'
+// }).then((res) => {
+//   console.log(res)
+// }
 
 
-
-  window.addEventListener("DOMContentLoaded", () => {
-    $input = document.querySelector('#name');
-    $button = document.querySelector('#greet');
-    $output = document.querySelector('#greeting-msg');
-
-    $button.addEventListener("click", () => {
-      invoke("greet", { name: $input.value }).then((res) => {
-        $output.innerHTML = res;
-      });
-    });
-  })
+let simplemde = new SimpleMDE({ element: document.getElementById("editor") });
