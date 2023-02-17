@@ -11,4 +11,8 @@ const { invoke } = window.__TAURI__.tauri
 // }
 
 
-let simplemde = new SimpleMDE({ element: document.getElementById("editor") });
+let simplemde = new SimpleMDE({ 
+  element: document.getElementById("editor"),
+  placeholder: "Type here...",
+});
+
