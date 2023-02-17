@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "Knowing Tauri",
+    "productName": "Markdown Notez",
     "version": "0.0.0"
   },
   "tauri": {
@@ -62,7 +62,7 @@
         "fullscreen": false,
         "height": 400,
         "resizable": true,
-        "title": "Knowing Tauri",
+        "title": "Markdown Notez",
         "width": 600
       }
     ]

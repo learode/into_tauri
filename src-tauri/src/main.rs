@@ -1,5 +1,6 @@
 #![cfg_attr(all(not(debug_assertions), target_os="windows"), windows_subsystem = "windows")]
-use tauri::{Menu, MenuItem, CustomMenuItem, Builder, MenuEntry, Submenu, Manager};
+#[allow(unused_imports)]
+use tauri::{Menu, MenuItem, CustomMenuItem, Builder, MenuEntry, Submenu, AboutMetadata};
 
 /**
  * Trying to understand the use of Menu, Menu::with_items, MenuEntry.
@@ -7,36 +8,24 @@ use tauri::{Menu, MenuItem, CustomMenuItem, Builder, MenuEntry, Submenu, Manager
  * 
  * Only about is unsupported
  */
-
- #[tauri::command]
- fn greet(name: &str) -> String {
-    format!("Yo nigga {name}, whats up?")
- }
-
-
 fn main() {
+    let menu = Menu::with_items(vec![
+        MenuEntry::Submenu(Submenu::new(
+            "File".to_string(),
+            Menu::with_items(vec![
+                CustomMenuItem::new("new", "New").into(),
+                CustomMenuItem::new("open", "Open").into(),
+                CustomMenuItem::new("more", "More").into(),
+            ])
+        )),
+        MenuItem::About("About".to_string(), 
+            AboutMetadata::new()).into(),
+        MenuItem::Separator.into(),
+        MenuItem::Quit.into(),
+    ]);
     Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
-        .menu(Menu::with_items([
-            MenuEntry::Submenu(Submenu::new(
-                "File", 
-                Menu::with_items([
-                    CustomMenuItem::new("new", "New").into(),
-                    CustomMenuItem::new("open", "Open").into(),
-                    CustomMenuItem::new("more", "More").into(),
-                ])
-            ))
-        ]))
-        .on_menu_event(|event| {
-            match event.menu_item_id() {
-                "new" => { println!("Still to learn how :sobbing:") },
-                "more" => { 
-                    tauri::api::shell::open(&event.window().shell_scope(), "https://github.com/learode/liferoute", None).unwrap()
-                },
-                _ => { println!("Jez Rust is a pain, I just forgot this statement You have to complain niga?");  }
-            }
-        })
+        .menu(menu)
         .run(tauri::generate_context!())
-        .expect("Wow! Erro while trying to build a window :ha:");
+        .expect("Fail to run app Builder.");
     ()
 }
